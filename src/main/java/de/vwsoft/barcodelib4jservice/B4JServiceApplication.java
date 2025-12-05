@@ -7,6 +7,7 @@ import java.util.Locale;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.io.ClassPathResource;
 
 
 @SpringBootApplication
@@ -26,9 +27,9 @@ public class B4JServiceApplication {
     // Load additional fonts. Since the application runs in headless mode, fonts cannot be
     // registered globally via GraphicsEnvironment.registerFont(). Instead, we load them into
     // a static map and make them available to controllers that need them.
-    final String[] fontFileNames = { "OCR_B.ttf" };
+    final String[] fontFileNames = { "ocr-b.ttf" };
     for (String fileName : fontFileNames) {
-      try (var is = ClassLoader.getSystemResourceAsStream(fileName)) {
+      try (var is = new ClassPathResource(fileName).getInputStream()) {
         if (is != null) {
           Font font = Font.createFont(Font.TRUETYPE_FONT, is);
           additionalFonts.put(font.getFamily(), font);

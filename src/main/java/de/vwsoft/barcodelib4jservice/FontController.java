@@ -23,7 +23,7 @@ public class FontController {
   public FontController() {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-    // Collect system fonts and filter out unusable ones (symbols, emojis, etc.)
+    // Collect system fonts and filter out 1) mapped and 2) unusable ones (symbols, emojis, etc.)
     Stream<String> systemFonts = Arrays.stream(ge.getAvailableFontFamilyNames())
         .filter(fontName -> {
           Font font = new Font(fontName, Font.PLAIN, 0);
@@ -33,7 +33,12 @@ public class FontController {
           return !lower.contains("symbol") && !lower.contains("wingding") &&
                  !lower.contains("webding") && !lower.contains("dingbat") &&
                  !lower.contains("emoji") && !lower.contains("marlett") &&
-                 !lower.contains("mt extra");
+                 !lower.contains("mt extra") &&
+                 !lower.equals("dialog") &&
+                 !lower.equals("dialoginput") &&
+                 !lower.equals("monospaced") &&
+                 !lower.equals("serif") &&
+                 !lower.equals("sansserif");
         });
 
     // Add additional fonts loaded at application startup (e.g., OCR-B from TTF files).
