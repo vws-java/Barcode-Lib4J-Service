@@ -64,4 +64,11 @@ public class MetadataController {
     return ResponseEntity.ok(result);
   }
 
+
+  //----
+  @GetMapping("/health")
+  public ResponseEntity<Map<String, String>> health() {
+    return ResponseEntity.ok(Map.of("status", "UP"));
+  }
+
 }
