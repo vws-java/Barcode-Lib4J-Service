@@ -28,8 +28,7 @@ RUN apt-get update && apt-get install -y \
   fonts-dejavu-core \
   fonts-liberation \
   fonts-ubuntu \
-  fonts-roboto \
-  fonts-opensans \
+  fonts-roboto-unhinted \
   && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
