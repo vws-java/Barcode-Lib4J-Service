@@ -26,6 +26,10 @@ RUN apt-get update && apt-get install -y \
   fontconfig \
   libfreetype6 \
   fonts-dejavu-core \
+  fonts-liberation \
+  fonts-ubuntu \
+  fonts-roboto \
+  fonts-opensans \
   && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
