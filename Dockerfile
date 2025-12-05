@@ -48,7 +48,7 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:8080/actuator/health || exit 1
+  CMD curl -f http://localhost:8080/fonts || exit 1
 
 # Run the application with Xvfb
 ENTRYPOINT ["sh", "-c", "Xvfb :99 -screen 0 1024x768x24 & \
