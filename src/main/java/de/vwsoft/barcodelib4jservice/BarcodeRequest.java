@@ -41,8 +41,6 @@ public abstract class BarcodeRequest {
 
   public final ImageTransform transform;
 
-  @Min(value = 72, message = "DPI must be at least 72")
-  @Max(value = 2400, message = "DPI must not exceed 2400")
   public final Integer dpi;
 
 

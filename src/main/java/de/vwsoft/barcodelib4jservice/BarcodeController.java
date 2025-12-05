@@ -178,9 +178,9 @@ public class BarcodeController {
   //---- Validates parameters that apply to both 1D and 2D code types.
   //     Returns 'null' when validation succeeds, otherwise returns an error response.
   private ResponseEntity<?> setupCommonParams(BarExporter exporter, BarcodeRequest r) {
-    if (r.format.isRasterFormat() && r.dpi == 0)
+    if (r.format.isRasterFormat() && (r.dpi < 72 || r.dpi > 2400))
       return ResponseEntity.badRequest().contentType(TEXT_PLAIN_UTF8) // HTTP 400
-        .body("DPI is required for raster formats");
+        .body("Raster formats require DPI between 72 and 2400");
 
     String errMsgPrefix = "Foreground: ";
     try {

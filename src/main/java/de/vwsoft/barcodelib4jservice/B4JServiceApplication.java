@@ -27,7 +27,7 @@ public class B4JServiceApplication {
     // Load additional fonts. Since the application runs in headless mode, fonts cannot be
     // registered globally via GraphicsEnvironment.registerFont(). Instead, we load them into
     // a static map and make them available to controllers that need them.
-    final String[] fontFileNames = { "ocr-b.ttf" };
+    final String[] fontFileNames = { "OCR_B.ttf" };
     for (String fileName : fontFileNames) {
       try (var is = new ClassPathResource(fileName).getInputStream()) {
         if (is != null) {
