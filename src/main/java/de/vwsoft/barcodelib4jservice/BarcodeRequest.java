@@ -2,7 +2,6 @@ package de.vwsoft.barcodelib4jservice;
 
 import java.util.List;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -28,6 +27,18 @@ public abstract class BarcodeRequest {
   @Positive(message = "Height must be greater than 0")
   public final Double height;
 
+  @Min(value = 0, message = "Margin left must be 0 or greater")
+  public final Double marginLeft;
+
+  @Min(value = 0, message = "Margin right must be 0 or greater")
+  public final Double marginRight;
+
+  @Min(value = 0, message = "Margin top must be 0 or greater")
+  public final Double marginTop;
+
+  @Min(value = 0, message = "Margin bottom must be 0 or greater")
+  public final Double marginBottom;
+
   @NotNull(message = "Format is required")
   public final ImageFormat format;
 
@@ -49,6 +60,10 @@ public abstract class BarcodeRequest {
       String content,
       Double width,
       Double height,
+      Double marginLeft,
+      Double marginRight,
+      Double marginTop,
+      Double marginBottom,
       ImageFormat format,
       ImageColorModel colorModel,
       List<Integer> foreground,
@@ -60,6 +75,10 @@ public abstract class BarcodeRequest {
     this.content = content;
     this.width = width;
     this.height = height;
+    this.marginLeft = marginLeft != null ? marginLeft : 0.0;
+    this.marginRight = marginRight != null ? marginRight : 0.0;
+    this.marginTop = marginTop != null ? marginTop : 0.0;
+    this.marginBottom = marginBottom != null ? marginBottom : 0.0;
     this.format = format;
     this.colorModel = colorModel != null ? colorModel : ImageColorModel.RGB;
 

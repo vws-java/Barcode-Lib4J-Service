@@ -62,7 +62,8 @@ public class BarcodeController {
       @RequestHeader(value = "Accept-Language", defaultValue = "en") String language) {
 
     // Validate and set up common properties (used by both 1D and 2D barcodes)
-    BarExporter exporter = new BarExporter(r.width, r.height);
+    BarExporter exporter = new BarExporter(r.marginLeft + r.width  + r.marginRight,
+                                           r.marginTop  + r.height + r.marginBottom);
     ResponseEntity<?> errorResponse = setupCommonParams(exporter, r);
     if (errorResponse != null)
       return errorResponse;
@@ -83,10 +84,13 @@ public class BarcodeController {
     barcode.setTextOffset(r.textOffset);
     barcode.setFont(resolveFont(r));
     barcode.setFontSizeAdjusted(r.fontSize == 0F);
+    barcode.setRatio(r.ratio);
+    barcode.setOptionalChecksumVisible(r.showOptionalChecksum);
 
     // Draw the barcode
     Graphics2D g2d = exporter.getGraphics2D();
-    barcode.draw(g2d, 0.0, 0.0, r.width, r.height, r.dpi > 0 ? 25.4 / r.dpi : 0.0, 0.0, 0.0);
+    barcode.draw(g2d, r.marginLeft, r.marginTop, r.width, r.height,
+        r.dpi > 0 ? 25.4 / r.dpi : 0.0, 0.0, 0.0);
     g2d.dispose();
 
     // Encode the barcode into the output format and return
@@ -100,7 +104,8 @@ public class BarcodeController {
       @RequestHeader(value = "Accept-Language", defaultValue = "en") String language) {
 
     // Validate and set up common properties (used by both 1D and 2D barcodes)
-    BarExporter exporter = new BarExporter(r.width, r.height);
+    BarExporter exporter = new BarExporter(r.marginLeft + r.width  + r.marginRight,
+                                           r.marginTop  + r.height + r.marginBottom);
     ResponseEntity<?> errorResponse = setupCommonParams(exporter, r);
     if (errorResponse != null)
       return errorResponse;
@@ -167,7 +172,7 @@ public class BarcodeController {
 
     // Draw the symbol
     Graphics2D g2d = exporter.getGraphics2D();
-    symbol.draw(g2d, 0.0, 0.0, r.width, r.height, r.dpi > 0 ? 25.4 / r.dpi : 0.0);
+    symbol.draw(g2d, r.marginLeft, r.marginTop, r.width, r.height, r.dpi > 0 ? 25.4 / r.dpi : 0.0);
     g2d.dispose();
 
     // Encode the symbol into the output format and return
@@ -178,9 +183,14 @@ public class BarcodeController {
   //---- Validates parameters that apply to both 1D and 2D code types.
   //     Returns 'null' when validation succeeds, otherwise returns an error response.
   private ResponseEntity<?> setupCommonParams(BarExporter exporter, BarcodeRequest r) {
-    if (r.format.isRasterFormat() && (r.dpi < 72 || r.dpi > 2400))
-      return ResponseEntity.badRequest().contentType(TEXT_PLAIN_UTF8) // HTTP 400
-        .body("Raster formats require DPI between 72 and 2400");
+    if (r.dpi < 150 || r.dpi > 2400) {
+      if (r.format.isRasterFormat())
+        return ResponseEntity.badRequest().contentType(TEXT_PLAIN_UTF8) // HTTP 400
+          .body("Raster formats require DPI between 150 and 2400");
+      else if (r.dpi != 0)
+        return ResponseEntity.badRequest().contentType(TEXT_PLAIN_UTF8) // HTTP 400
+          .body("DPI must be a value between 150 and 2400 or zero");
+    }
 
     String errMsgPrefix = "Foreground: ";
     try {

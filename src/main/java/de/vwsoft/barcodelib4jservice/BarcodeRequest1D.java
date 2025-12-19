@@ -24,6 +24,8 @@ public class BarcodeRequest1D extends BarcodeRequest {
 
   public final Boolean appendOptionalChecksum;
 
+  public final Boolean showOptionalChecksum;
+
   public final String addon;
 
   public final Boolean textVisible;
@@ -39,6 +41,10 @@ public class BarcodeRequest1D extends BarcodeRequest {
   @Min(value = 0, message = "Font size must be 0 (auto) or greater")
   public final Float fontSize;
 
+  @Min(value = 2, message = "Ratio must be between 2.0 and 3.0")
+  @Max(value = 3, message = "Ratio must be between 2.0 and 3.0")
+  public final Float ratio;
+
 
   //----
   @JsonCreator
@@ -47,6 +53,10 @@ public class BarcodeRequest1D extends BarcodeRequest {
       @JsonProperty("content") String content,
       @JsonProperty("width") Double width,
       @JsonProperty("height") Double height,
+      @JsonProperty("marginLeft") Double marginLeft,
+      @JsonProperty("marginRight") Double marginRight,
+      @JsonProperty("marginTop") Double marginTop,
+      @JsonProperty("marginBottom") Double marginBottom,
       @JsonProperty("format") ImageFormat format,
       @JsonProperty("colorModel") ImageColorModel colorModel,
       @JsonProperty("foreground") List<Integer> foreground,
@@ -58,24 +68,28 @@ public class BarcodeRequest1D extends BarcodeRequest {
       @JsonProperty("type") BarcodeType type,
       @JsonProperty("autoComplete") Boolean autoComplete,
       @JsonProperty("appendOptionalChecksum") Boolean appendOptionalChecksum,
+      @JsonProperty("showOptionalChecksum") Boolean showOptionalChecksum,
       @JsonProperty("addon") String addon,
       @JsonProperty("textVisible") Boolean textVisible,
       @JsonProperty("textOnTop") Boolean textOnTop,
       @JsonProperty("textOffset") Float textOffset,
       @JsonProperty("fontName") String fontName,
-      @JsonProperty("fontSize") Float fontSize) {
-    super(content, width, height, format, colorModel, foreground, background, opaque,
-        transform, dpi);
+      @JsonProperty("fontSize") Float fontSize,
+      @JsonProperty("ratio") Float ratio) {
+    super(content, width, height, marginLeft, marginRight, marginTop, marginBottom, format,
+        colorModel, foreground, background, opaque, transform, dpi);
 
     this.type = type;
     this.autoComplete = autoComplete != null ? autoComplete : false;
     this.appendOptionalChecksum = appendOptionalChecksum != null ? appendOptionalChecksum : false;
+    this.showOptionalChecksum = showOptionalChecksum != null ? showOptionalChecksum : false;
     this.addon = addon;
     this.textVisible = textVisible != null ? textVisible : true;
     this.textOnTop = textOnTop != null ? textOnTop : false;
     this.textOffset = textOffset != null ? textOffset : 0F;
     this.fontName = fontName != null ? fontName : Font.SANS_SERIF;
     this.fontSize = fontSize != null ? fontSize : 0F;
+    this.ratio = ratio != null ? ratio : 2.5F;
   }
 
 

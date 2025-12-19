@@ -13,12 +13,13 @@ public class WebConfig implements WebMvcConfigurer {
   private String allowedOrigins;
 
 
-  @Override
+  @Override // Configure CORS to allow requests from web clients on different domains
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
         .allowedOrigins(allowedOrigins.split(","))
-        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowedHeaders("*");
+        .allowedMethods("GET", "POST", "OPTIONS")
+        .allowedHeaders("*")
+        .exposedHeaders("Content-Disposition");
   }
 
 }

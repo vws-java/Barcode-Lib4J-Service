@@ -38,11 +38,6 @@ public class MetadataController {
   @GetMapping("/{path}")
   public ResponseEntity<List<EnumInfo>> getEnumInfo(@PathVariable String path) {
     List<EnumInfo> result = switch(path) {
-      case "formats" -> enumInfoFrom(ImageFormat.values(), f -> Map.of(
-          "isRaster", f.isRasterFormat(),
-          "supportsTransparency", f.supportsTransparency(),
-          "supportsCMYK", f.supportsCMYK()
-      ));
       case "types-1d" -> enumInfoFrom(BarcodeType.values(), t -> Map.of(
           "typeName", t.getTypeName(),
           "typeNameShort", t.getTypeNameShort(),
@@ -57,6 +52,11 @@ public class MetadataController {
           "typeName", t.getTypeName(),
           "isGS1", t.isGS1(),
           "defaultQuietZone", t.getDefaultQuietZone()
+      ));
+      case "formats" -> enumInfoFrom(ImageFormat.values(), f -> Map.of(
+          "isRaster", f.isRasterFormat(),
+          "supportsTransparency", f.supportsTransparency(),
+          "supportsCMYK", f.supportsCMYK()
       ));
       default -> List.of();
     };
