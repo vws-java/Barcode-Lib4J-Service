@@ -58,6 +58,8 @@ public class BarcodeRequest1D extends BarcodeRequest {
       @JsonProperty("marginTop") Double marginTop,
       @JsonProperty("marginBottom") Double marginBottom,
       @JsonProperty("format") ImageFormat format,
+      @JsonProperty("formatInlineSVG") Boolean formatInlineSVG,
+      @JsonProperty("formatPreviewDpiEPS") Integer formatPreviewDpiEPS,
       @JsonProperty("colorModel") ImageColorModel colorModel,
       @JsonProperty("foreground") List<Integer> foreground,
       @JsonProperty("background") List<Integer> background,
@@ -77,7 +79,8 @@ public class BarcodeRequest1D extends BarcodeRequest {
       @JsonProperty("fontSize") Float fontSize,
       @JsonProperty("ratio") Float ratio) {
     super(content, width, height, marginLeft, marginRight, marginTop, marginBottom, format,
-        colorModel, foreground, background, opaque, transform, dpi);
+        formatInlineSVG, formatPreviewDpiEPS, colorModel, foreground, background, opaque, transform,
+        dpi);
 
     this.type = type;
     this.autoComplete = autoComplete != null ? autoComplete : false;

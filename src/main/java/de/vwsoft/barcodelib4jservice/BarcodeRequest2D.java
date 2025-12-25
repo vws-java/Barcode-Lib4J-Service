@@ -66,6 +66,8 @@ public class BarcodeRequest2D extends BarcodeRequest {
       @JsonProperty("marginTop") Double marginTop,
       @JsonProperty("marginBottom") Double marginBottom,
       @JsonProperty("format") ImageFormat format,
+      @JsonProperty("formatInlineSVG") Boolean formatInlineSVG,
+      @JsonProperty("formatPreviewDpiEPS") Integer formatPreviewDpiEPS,
       @JsonProperty("colorModel") ImageColorModel colorModel,
       @JsonProperty("foreground") List<Integer> foreground,
       @JsonProperty("background") List<Integer> background,
@@ -86,7 +88,8 @@ public class BarcodeRequest2D extends BarcodeRequest {
       @JsonProperty("aztecSize") Integer aztecSize,
       @JsonProperty("aztecErrorCorrection") Integer aztecErrorCorrection) {
     super(content, width, height, marginLeft, marginRight, marginTop, marginBottom, format,
-        colorModel, foreground, background, opaque, transform, dpi);
+        formatInlineSVG, formatPreviewDpiEPS, colorModel, foreground, background, opaque, transform,
+        dpi);
 
     this.type = type;
     this.charset = charset;

@@ -42,6 +42,11 @@ public abstract class BarcodeRequest {
   @NotNull(message = "Format is required")
   public final ImageFormat format;
 
+  public final Boolean formatInlineSVG;
+
+  @Min(value = 0, message = "EPS Preview DPI must be 0 (no preview) or positive")
+  public final Integer formatPreviewDpiEPS;
+
   public final ImageColorModel colorModel;
 
   public final List<Integer> foreground;
@@ -65,6 +70,8 @@ public abstract class BarcodeRequest {
       Double marginTop,
       Double marginBottom,
       ImageFormat format,
+      Boolean formatInlineSVG,
+      Integer formatPreviewDpiEPS,
       ImageColorModel colorModel,
       List<Integer> foreground,
       List<Integer> background,
@@ -80,6 +87,10 @@ public abstract class BarcodeRequest {
     this.marginTop = marginTop != null ? marginTop : 0.0;
     this.marginBottom = marginBottom != null ? marginBottom : 0.0;
     this.format = format;
+    this.formatInlineSVG = formatInlineSVG != null && format == ImageFormat.SVG ?
+        formatInlineSVG : false;
+    this.formatPreviewDpiEPS = formatPreviewDpiEPS != null && format == ImageFormat.EPS ?
+        formatPreviewDpiEPS : 0;
     this.colorModel = colorModel != null ? colorModel : ImageColorModel.RGB;
 
     // Note: Requires colorModel to be initialized first

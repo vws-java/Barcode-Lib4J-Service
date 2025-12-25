@@ -121,6 +121,8 @@ public class BarcodeController {
     // Localize error messages of type HTTP 422 (invalid user input)
     final boolean useGerman = language.startsWith("de");
     final String invalidText = useGerman ? "ung\u00FCltig" : "invalid";
+    final String notEncodableText = useGerman ? "Inhalt nicht mit Zeichensatz kodierbar" :
+                                                "Content not encodable with charset";
 
     // Validate 'content' and 'charset'
     String errMsg = null; // Let's see if there is an error to collect within the two if-blocks
@@ -137,7 +139,7 @@ public class BarcodeController {
       try {
         charset = Charset.forName(r.charset);
       } catch (Exception e) {
-        errMsg = invalidText;
+        errMsg = notEncodableText;
       }
     }
 
@@ -163,7 +165,7 @@ public class BarcodeController {
           errMsg = invalidText;
         }
       } else {
-        errMsg = invalidText;
+        errMsg = notEncodableText;
       }
     }
 
@@ -202,10 +204,12 @@ public class BarcodeController {
           .body(errMsgPrefix + e.getMessage());
     }
 
-    exporter.setTitle(r.getTypeName());
+    exporter.setTitle(r.formatInlineSVG ? null : r.getTypeName());
     exporter.setCreator("Barcode-Lib4J Service");
     exporter.setOpaque(r.opaque);
     exporter.setTransform(r.transform);
+    exporter.setInlineSVG(r.formatInlineSVG);
+    exporter.setTiffResolution(r.formatPreviewDpiEPS);
 
     return null;
   }
@@ -257,10 +261,13 @@ public class BarcodeController {
       exporter.write(baos, r.format, r.colorModel, r.dpi, r.dpi);
     } catch (IOException e) { /* Should never occur - parameters are validated beforehand */ }
 
-    String fileName = r.getTypeName().replace(' ', '-') + '.' + r.format.name().toLowerCase();
-    return ResponseEntity.ok().contentType(CONTENT_TYPES.get(r.format)) // HTTP 200
-        .header("Content-Disposition", "attachment; filename=\"" + fileName + "\"")
-        .body(baos.toByteArray());
+    var builder = ResponseEntity.ok().contentType(CONTENT_TYPES.get(r.format));
+    if (!r.formatInlineSVG) {
+      String fileName = r.getTypeName().replace(' ', '-') + '.' + r.format.name().toLowerCase();
+      builder.header("Access-Control-Expose-Headers", "Content-Disposition")
+             .header("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+    }
+    return builder.body(baos.toByteArray()); // HTTP 200
   }
 
 }
