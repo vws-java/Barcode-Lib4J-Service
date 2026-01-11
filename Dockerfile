@@ -13,14 +13,14 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Build the application
-RUN mvn clean package -DskipTests -B
+RUN mvn package -DskipTests -B
 
 # Stage 2: Runtime
 FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
-# Install Xvfb and fonts for headless graphics rendering
+# Install fonts for headless graphics rendering
 RUN apt-get update && apt-get install -y \
   fontconfig \
   libfreetype6 \
@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y \
 RUN groupadd -r spring && useradd -r -g spring spring
 
 # Copy the built JAR from build stage
-COPY --from=build /app/target/barcodelib4j-service-1.0.0.jar app.jar
+COPY --from=build /app/target/barcodelib4j-service-*.jar app.jar
 
 # Change ownership to non-root user
 RUN chown spring:spring app.jar
@@ -41,7 +41,7 @@ RUN chown spring:spring app.jar
 # Switch to non-root user
 USER spring
 
-# Expose port (render.com uses PORT environment variable)
+# Expose port (documentation only)
 EXPOSE 8080
 
 # Run the application
