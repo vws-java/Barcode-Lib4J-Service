@@ -25,7 +25,6 @@ RUN apt-get update && apt-get install -y \
   fontconfig \
   libfreetype6 \
   fonts-dejavu-core \
-  fonts-ubuntu \
   fonts-roboto-unhinted \
   && rm -rf /var/lib/apt/lists/*
 
