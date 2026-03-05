@@ -244,7 +244,7 @@ public class BarcodeController {
     StringBuilder sb = new StringBuilder(content.length() + lines.length);
     for (int i=0; i<lines.length; i++) {
       String s = lines[i].trim();
-      if (!AI_ONLY_PATTERN.matcher(s).matches()) {
+      if (!s.isEmpty() && !AI_ONLY_PATTERN.matcher(s).matches()) {
         sb.append(s);
         if (i != lines.length - 1 && s.charAt(s.length() - 1) != fnc1)
           sb.append(fnc1);
