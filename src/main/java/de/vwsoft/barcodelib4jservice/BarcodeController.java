@@ -76,7 +76,7 @@ public class BarcodeController {
       barcode = Barcode.newInstance(r.type, content, r.autoComplete, r.appendOptionalChecksum);
       barcode.setAddOn(r.addon);
     } catch (BarcodeException e) {
-      return ResponseEntity.unprocessableEntity().contentType(TEXT_PLAIN_UTF8) // HTTP 422
+      return ResponseEntity.unprocessableContent().contentType(TEXT_PLAIN_UTF8) // HTTP 422
           .body(language.startsWith("de") ? e.getLocalizedMessage() : e.getMessage());
     }
     barcode.setTextVisible(r.textVisible);
@@ -170,7 +170,7 @@ public class BarcodeController {
     }
 
     if (errMsg != null) // HTTP 422
-      return ResponseEntity.unprocessableEntity().contentType(TEXT_PLAIN_UTF8).body(errMsg);
+      return ResponseEntity.unprocessableContent().contentType(TEXT_PLAIN_UTF8).body(errMsg);
 
     // Draw the symbol
     Graphics2D g2d = exporter.getGraphics2D();
