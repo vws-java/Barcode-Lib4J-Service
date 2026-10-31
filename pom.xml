@@ -19,20 +19,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.8</version>
+        <version>4.1.2</version>
         <relativePath/>
     </parent>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>25</java.version>
         <project.build.sourceEncoding>windows-1252</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Web Starter -->
+        <!-- Spring Boot Web MVC Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
         <!-- Spring Boot Validation -->
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>de.vwsoft</groupId>
             <artifactId>barcodelib4j</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
         </dependency>
     </dependencies>
 
